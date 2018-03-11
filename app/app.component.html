@@ -1,0 +1,19 @@
+<md-content layout-padding="" ng-cloak="">
+  <div layout="row" layout-align="center">
+    <div>
+      <mc-dates mc-change="$ctrl.onMcDateChange(from, to)" date-from="$ctrl.dateFrom" date-to="$ctrl.dateTo" mc-placeholder="Укажите дату"></mc-dates>
+    </div>
+  </div>
+  <div layout="row" layout-align="center">
+    <div layout="column">
+      <md-input-container>
+        <label>Дата 1</label>
+        <input ng-model="$ctrl.dateFrom" ng-model-options="{ debounce: 500 }">
+      </md-input-container>
+      <md-input-container>
+        <label>Дата 2</label>
+        <input ng-model="$ctrl.dateTo" ng-model-options="{ debounce: 500 }">
+      </md-input-container>
+    </div>
+  </div>
+</md-content>

@@ -1,0 +1,37 @@
+<div layout="column">
+
+  <div layout="row" class="pickers">
+
+    <div>
+      <div class="dateType">с</div>
+      <md-datepicker md-hide-icons="calendar" ng-model="$ctrl._dateFrom" md-max-date="$ctrl._dateTo" md-placeholder="{{$ctrl.mcPlaceholder}}"></md-datepicker>
+    </div>
+
+    <div>
+      <div class="dateType">по</div>
+      <md-datepicker md-hide-icons="calendar" ng-model="$ctrl._dateTo" md-min-date="$ctrl._dateFrom" md-placeholder="{{$ctrl.mcPlaceholder}}"></md-datepicker>
+    </div>
+
+  </div>
+
+  <div layout="row" layout-align="space-between" class="presets" style="clear: both;">
+
+    <div>
+      <a href="" ng-click="$ctrl.applyPreset($ctrl._presets.YESTERDAY)">Вчера</a>
+    </div>
+    <div>
+      <a href="" ng-click="$ctrl.applyPreset($ctrl._presets.TODAY)">Сегодня</a>
+    </div>
+    <div>
+      <a href="" ng-click="$ctrl.applyPreset($ctrl._presets.TWOWEEKS)">2 недели</a>
+    </div>
+    <div>
+      <a href="" ng-click="$ctrl.applyPreset($ctrl._presets.MONTH)">Месяц</a>
+    </div>
+    <div>
+      <a href="" ng-click="$ctrl.applyPreset($ctrl._presets.ALL)">Все</a>
+    </div>
+
+  </div>
+
+</div>
