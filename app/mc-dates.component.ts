@@ -37,7 +37,7 @@ class McDatesController implements ng.IComponentController {
     let changed: boolean = false;
     ['dateFrom', 'dateTo'].forEach((name: string) => {
       let m: Moment = this.moment(this['_' + name]);
-      let prev: string = this[name];
+      let prev: string = (this[name]) ? this[name] : null;
       this[name] = (m.isValid()) ? m.format('YYYY-MM-DD') : null;
       changed = (prev !== this[name]) ? true : changed;
     });
