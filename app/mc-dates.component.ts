@@ -12,18 +12,17 @@ enum Presets {
 class McDatesController implements ng.IComponentController {
   public mcPlaceholder: string;
   public mcChange: (obj: object) => any;
-  private _dateFromObj: Date;
-  private _dateToObj: Date;
+  private _dateFrom: Date;
+  private _dateTo: Date;
   private _presets: typeof Presets;
 
-  private _sielence: boolean = false;
-  private _hasEventInSielence: boolean = false;
-
   private moment: any;
+  private $timeout: any;
 
-  constructor(moment: any) {
+  constructor(moment: any, $timeout: any) {
     this._presets = Presets;
     this.moment = moment;
+    this.$timeout = $timeout;
   }
 
   private format(d: Date): string {
@@ -36,59 +35,29 @@ class McDatesController implements ng.IComponentController {
     return (m.isValid() ? m.toDate() : null);
   }
 
-  // app <> mc-dates
-
   public get dateFrom(): string {
-    return this.format(this._dateFromObj);
+    return this.format(this._dateFrom);
   }
 
   public set dateFrom(s: string) {
-    this.updateDateObject('_dateFromObj', s);
+    this._dateFrom = this.parse(s);
   }
 
   public get dateTo(): string {
-    return this.format(this._dateToObj);
+    return this.format(this._dateTo);
   }
 
   public set dateTo(s: string) {
-    this.updateDateObject('_dateToObj', s);
+    this._dateTo = this.parse(s);
   }
 
-  // mc-dates <> md-datepicker
-
-  public get _dateFrom(): Date | string {
-    return this.format(this._dateFromObj);
-  }
-
-  public set _dateFrom(d: Date | string) {
-    this.updateDateObject('_dateFromObj', d, true);
-  }
-
-  public get _dateTo(): Date | string {
-    return this.format(this._dateToObj);
-  }
-
-  public set _dateTo(d: Date | string) {
-    this.updateDateObject('_dateToObj', d, true);
-  }
-
-  private updateDateObject(name: string, d: string | Date, emitChange?: boolean): void {
-    if (typeof d !== 'string') {
-      d = this.format(d);
-    }
-    if (this.format(this[name]) !== d) {
-      this[name] = this.parse(d);
-      if (typeof this.mcChange === 'function' && emitChange) {
-        this.emitEvent();
-      }
-    }
+  public onInnerChange(): void {
+    this.emitEvent();
   }
 
   emitEvent(): void {
-    if (!this._sielence) {
-      this.mcChange({ from: this.format(this._dateFromObj), to: this.format(this._dateToObj) });
-    } else {
-      this._hasEventInSielence = true;
+    if (this.mcChange && typeof this.mcChange === 'function') {
+      this.mcChange({ from: this.format(this._dateFrom), to: this.format(this._dateTo) });
     }
   }
 
@@ -113,12 +82,14 @@ class McDatesController implements ng.IComponentController {
         d = [null, null];
         break;
     }
-    this._sielence = true; // disable emitting events
+
+    let prevDateFrom = this.dateFrom;
+    let prevDateTo = this.dateTo;
+
     this._dateFrom = (d[1]) ? d[1] : null;
     this._dateTo = (d[0]) ? d[0] : null;
-    this._sielence = false; // enable emitting events
-    if (this._hasEventInSielence) { // any event while disabled?
-      this._hasEventInSielence = false;
+
+    if (prevDateFrom !== this.dateFrom || prevDateTo !== this.dateTo) {
       this.emitEvent();
     }
 
@@ -128,7 +99,7 @@ class McDatesController implements ng.IComponentController {
 export class McDatesComponent implements ng.IComponentOptions {
 
   public static NAME: string = 'mcDates';
-  public static $inject: Array<string> = ['moment'];
+  public static $inject: Array<string> = ['moment', '$timeout'];
   public bindings: any;
   public controller: any;
   public templateUrl: string;

@@ -4,13 +4,14 @@
 
     <div>
       <div class="dateType">с</div>
-      <md-datepicker md-hide-icons="calendar" ng-model="$ctrl._dateFrom" md-max-date="$ctrl._dateTo" md-placeholder="{{$ctrl.mcPlaceholder}}"></md-datepicker>
+      <md-datepicker md-hide-icons="calendar" ng-model="$ctrl._dateFrom" md-max-date="$ctrl._dateTo" ng-change="$ctrl.onInnerChange()" md-placeholder="{{$ctrl.mcPlaceholder}}"></md-datepicker>
     </div>
 
     <div>
       <div class="dateType">по</div>
-      <md-datepicker md-hide-icons="calendar" ng-model="$ctrl._dateTo" md-min-date="$ctrl._dateFrom" md-placeholder="{{$ctrl.mcPlaceholder}}"></md-datepicker>
+      <md-datepicker md-hide-icons="calendar" ng-model="$ctrl._dateTo" md-min-date="$ctrl._dateFrom" ng-change="$ctrl.onInnerChange()" md-placeholder="{{$ctrl.mcPlaceholder}}"></md-datepicker>
     </div>
+
 
   </div>
 
